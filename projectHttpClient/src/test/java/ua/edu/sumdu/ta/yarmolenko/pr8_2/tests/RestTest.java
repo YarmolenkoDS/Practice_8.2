@@ -13,9 +13,6 @@ public class RestTest {
 
     private static final String expectedTAHeader = "X-Ta-Course-Example-Header: TA-Fall-2018";
 
-    /**
-     *
-     */
     @Test
     public void testRest() throws Exception {
         try {

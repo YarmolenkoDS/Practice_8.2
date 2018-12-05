@@ -37,6 +37,19 @@ public class Rest {
     private static final String taHeader = "X-Ta-Course-Example-Header";
 
     /**
+     * Gets http response.
+     *
+     * @param uri the uri
+     * @return the http response
+     * @throws IOException the io exception
+     */
+    public CloseableHttpResponse getHttpResponse(String uri) throws IOException {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpget = new HttpGet(uri);
+        return httpclient.execute(httpget);
+    }
+
+    /**
      * Gets ta header.
      *
      * @param uri the uri
@@ -44,10 +57,7 @@ public class Rest {
      * @throws IOException the io exception
      */
     public String getTAHeader(String uri) throws IOException {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet(uri);
-        CloseableHttpResponse response = httpclient.execute(httpget);
-
+        CloseableHttpResponse response = getHttpResponse(uri);
         try {
             return response.getFirstHeader(Rest.taHeader).toString();
         } finally {
@@ -64,20 +74,15 @@ public class Rest {
      * @throws ClientProtocolException the client protocol exception
      */
     public String getData(String uri) throws IOException, ClientProtocolException {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet(uri);
-        CloseableHttpResponse response = httpclient.execute(httpget);
+        CloseableHttpResponse response = getHttpResponse(uri);
         try {
             int status = response.getStatusLine().getStatusCode();
             if (status >= 200 && status < 300) {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
-                    long len = entity.getContentLength();
-                    if (len != -1 && len < 2048) {
-                        return EntityUtils.toString(entity);
-                    } else {
-                        // Stream content out
-                    }
+                    return EntityUtils.toString(entity);
+                } else {
+                    throw new ClientProtocolException("Response without entity");
                 }
             } else {
                 throw new ClientProtocolException("Unexpected response status: " + status);
@@ -85,7 +90,6 @@ public class Rest {
         } finally {
             response.close();
         }
-        return "";
     }
 
     /**
@@ -93,8 +97,12 @@ public class Rest {
      *
      * @param json the json
      * @return the object
+     * @throws IllegalArgumentException the illegal argument exception
      */
-    public Object jsonParse(String json) {
+    public Object jsonParse(String json) throws IllegalArgumentException {
+        if (json == null || json.equals("")) {
+            throw new IllegalArgumentException("Empty or null argument");
+        }
         return Configuration.defaultConfiguration().jsonProvider().parse(json);
     }
 
@@ -102,8 +110,12 @@ public class Rest {
      * Json list less than 700 calories foods.
      *
      * @param document the document
+     * @throws NullPointerException the null pointer exception
      */
-    public void jsonListLessThan700CaloriesFoods(Object document) {
+    public void jsonListLessThan700CaloriesFoods(Object document) throws NullPointerException {
+        if (document == null) {
+            throw new NullPointerException();
+        }
         List<String> foods = JsonPath.read(document, "$.breakfast_menu.food[?(@.calories < 700)].price");
         System.out.println("\nPrices of foods with less than 700 calories (JSON):");
         for (String food : foods) {
@@ -115,8 +127,12 @@ public class Rest {
      * Json list foods.
      *
      * @param document the document
+     * @throws NullPointerException the null pointer exception
      */
-    public void jsonListFoods(Object document) {
+    public void jsonListFoods(Object document) throws NullPointerException {
+        if (document == null) {
+            throw new NullPointerException();
+        }
         List<String> foods = JsonPath.read(document, "$.breakfast_menu.food[*].name");
         System.out.println("\nFood list (JSON):");
         for (String food : foods) {
@@ -128,8 +144,12 @@ public class Rest {
      * Json max number.
      *
      * @param document the document
+     * @throws NullPointerException the null pointer exception
      */
-    public void jsonMaxNumber(Object document) {
+    public void jsonMaxNumber(Object document) throws NullPointerException {
+        if (document == null) {
+            throw new NullPointerException();
+        }
         System.out.println("\nMax number (JSON): " + JsonPath.read(document, "$..numbers.max()"));
     }
 
@@ -137,8 +157,12 @@ public class Rest {
      * Xml list foods.
      *
      * @param menu the menu
+     * @throws NullPointerException the null pointer exception
      */
-    public void xmlListFoods(List<Food> menu) {
+    public void xmlListFoods(List<Food> menu) throws NullPointerException {
+        if (menu == null) {
+            throw new NullPointerException();
+        }
         System.out.println("\nFood list (XML):");
         for (Food food : menu) {
             System.out.println(food.getName());
@@ -149,8 +173,12 @@ public class Rest {
      * Xml list less than 700 calories foods.
      *
      * @param menu the menu
+     * @throws NullPointerException the null pointer exception
      */
-    public void xmlListLessThan700CaloriesFoods(List<Food> menu) {
+    public void xmlListLessThan700CaloriesFoods(List<Food> menu) throws NullPointerException  {
+        if (menu == null) {
+            throw new NullPointerException();
+        }
         System.out.println("\nPrices of foods with less than 700 calories (XML):");
         for (Food food : menu) {
             if (food.getCalories() < 700) {
@@ -164,8 +192,12 @@ public class Rest {
      * Xml list less than 700 calories foods.
      *
      * @param menu the menu
+     * @throws NullPointerException the null pointer exception
      */
-    public void xmlMaxCaloriesFood(List<Food> menu) {
+    public void xmlMaxCaloriesFood(List<Food> menu) throws NullPointerException {
+        if (menu == null) {
+            throw new NullPointerException();
+        }
         int maxCaloriesFood = 0;
         String maxCaloriesFoodName = "";
         for (Food food : menu) {
@@ -187,8 +219,12 @@ public class Rest {
      * @throws ParserConfigurationException the parser configuration exception
      * @throws IOException                  the io exception
      * @throws SAXException                 the sax exception
+     * @throws IllegalArgumentException     the illegal argument exception
      */
-    public List<Food> xmlParse(String uri) throws ParserConfigurationException, IOException, SAXException {
+    public List<Food> xmlParse(String uri) throws ParserConfigurationException, IOException, SAXException, IllegalArgumentException {
+        if (uri == null || uri.equals("")) {
+            throw new IllegalArgumentException("Empty or null argument");
+        }
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(uri);
