@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="ua.edu.sumdu.ta.yarmolenko.pr8_2.tests.RestTest" time="2.282" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="ua.edu.sumdu.ta.yarmolenko.pr8_2.tests.RestTest" time="2.481" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="10.0.2+13"/>
@@ -29,7 +29,7 @@
     <property name="os.name" value="Windows 7"/>
     <property name="classworlds.conf" value="C:\Program Files\maven\bin\..\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1251"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-10.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Java\jdk-10.0.2\\bin;C:\WINDOWS\system32;C:\Program Files\maven\\bin;C:\Users\Сергей\AppData\Roaming\npm;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-10.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Java\jdk-10.0.2\\bin;C:\WINDOWS\system32;C:\Program Files\maven\\bin;C:\Python27;C:\Python27\Scripts;C:\Program Files (x86)\Google\Chrome\Application;C:\Users\Сергей\AppData\Roaming\npm;."/>
     <property name="maven.conf" value="C:\Program Files\maven\bin\../conf"/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="54.0"/>
@@ -66,5 +66,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="ua.edu.sumdu.ta.yarmolenko.pr8_2.tests.RestTest" name="testRest" time="2.282"/>
+  <testcase classname="ua.edu.sumdu.ta.yarmolenko.pr8_2.tests.RestTest" name="testRest" time="2.481"/>
 </testsuite>
